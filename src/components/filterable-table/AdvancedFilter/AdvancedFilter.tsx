@@ -4,6 +4,10 @@ import PlusIcon from "~icons/mdi/plus";
 import DeleteIcon from "~icons/mdi/delete";
 import FolderPlusIcon from "~icons/mdi/folder-plus";
 import RefreshIcon from "~icons/mdi/refresh";
+import FilterIcon from "~icons/mdi/filter-outline";
+import FilterOffIcon from "~icons/mdi/filter-off-outline";
+import ChevronDownIcon from "~icons/mdi/chevron-down";
+import ChevronUpIcon from "~icons/mdi/chevron-up";
 import type {
   AdvancedFilterProps,
   FilterGroup,
@@ -214,6 +218,7 @@ function FilterGroupBuilder({ group, columns, onStructureChange, onValueChange, 
 export function AdvancedFilter({ columns, onFilterChange, defaultAutoApply = true, onReset }: AdvancedFilterProps) {
   const [filterRoot, setFilterRoot] = useState<FilterGroup>(createDefaultFilter);
   const [isAutoApply, setIsAutoApply] = useState(defaultAutoApply);
+  const [isExpanded, setIsExpanded] = useState(false);
   const debouncedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const createEvaluator = useCallback((root: FilterGroup) => {
@@ -263,9 +268,20 @@ export function AdvancedFilter({ columns, onFilterChange, defaultAutoApply = tru
     }
   };
 
-  const handleReset = () => {
+  // Un-filter: revert filtering (show all data) but keep filter inputs
+  const handleUnfilter = () => {
     onFilterChange(() => true);
     onReset?.();
+  };
+
+  // Clear: reset filter inputs to default state
+  const handleClear = () => {
+    // Clear values store
+    filterValuesStore.clear();
+    // Reset filter tree to default
+    setFilterRoot(createDefaultFilter());
+    // Also reset the filter evaluator to show all
+    onFilterChange(() => true);
   };
 
   useEffect(() => {
@@ -275,28 +291,42 @@ export function AdvancedFilter({ columns, onFilterChange, defaultAutoApply = tru
   return (
     <div className={styles["filter-card"]}>
       <div className={styles["filter-header"]}>
-        <h6>Filter - Advanced</h6>
-        <div className={styles["filter-controls"]}>
-          <label className={styles["auto-apply-label"]}>
-            <input type="checkbox" checked={isAutoApply} onChange={(e) => setIsAutoApply(e.target.checked)} />
-            <span>Auto-apply (500ms)</span>
-          </label>
-          <Button color="secondary" variant="outline" size="sm" startIcon={<RefreshIcon />} onClick={handleReset}>
-            Reset
-          </Button>
+        <button
+          className={styles["expand-toggle"]}
+          onClick={() => setIsExpanded(!isExpanded)}
+          title={isExpanded ? "Collapse filter" : "Expand filter"}
+        >
+          <FilterIcon />
+          {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        </button>
+        {isExpanded && (
+          <div className={styles["filter-controls"]}>
+            <label className={styles["auto-apply-label"]}>
+              <input type="checkbox" checked={isAutoApply} onChange={(e) => setIsAutoApply(e.target.checked)} />
+              <span>Auto-apply (500ms)</span>
+            </label>
+            <Button color="secondary" variant="outline" size="sm" startIcon={<FilterOffIcon />} onClick={handleUnfilter}>
+              Un-filter
+            </Button>
+            <Button color="danger" variant="outline" size="sm" startIcon={<RefreshIcon />} onClick={handleClear}>
+              Clear
+            </Button>
+          </div>
+        )}
+      </div>
+      {isExpanded && (
+        <div className={styles["filter-tree-container"]}>
+          <FilterGroupBuilder
+            group={filterRoot}
+            columns={columns}
+            onStructureChange={handleStructureChange}
+            onValueChange={triggerDebouncedApply}
+            onEnterKey={handleEnterKey}
+            onRemove={() => {}}
+            isRoot
+          />
         </div>
-      </div>
-      <div className={styles["filter-tree-container"]}>
-        <FilterGroupBuilder
-          group={filterRoot}
-          columns={columns}
-          onStructureChange={handleStructureChange}
-          onValueChange={triggerDebouncedApply}
-          onEnterKey={handleEnterKey}
-          onRemove={() => {}}
-          isRoot
-        />
-      </div>
+      )}
     </div>
   );
 }
