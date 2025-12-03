@@ -97,6 +97,10 @@ export interface FilterableTableProps<T = Record<string, unknown>> {
   showColumnSelector?: boolean;
   /** Base name for export file (will append timestamp, default: "export") */
   exportFileName?: string;
+  /** Whether to truncate cell content with ellipsis (default: true) */
+  truncateContent?: boolean;
+  /** Maximum number of lines to show when truncateContent is true (default: 2) */
+  maxLines?: number;
 }
 
 export interface DataTableProps<T = Record<string, unknown>> {
@@ -120,6 +124,10 @@ export interface DataTableProps<T = Record<string, unknown>> {
   rowClass?: (row: T) => string;
   /** Whether columns are resizable */
   allowResize?: boolean;
+  /** Whether to truncate cell content with ellipsis (default: true) */
+  truncateContent?: boolean;
+  /** Maximum number of lines to show when truncateContent is true (default: 2) */
+  maxLines?: number;
 }
 
 export interface AdvancedFilterProps {

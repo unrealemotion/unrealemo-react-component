@@ -1,4 +1,4 @@
-import type { ReactNode, ButtonHTMLAttributes } from "react";
+import React, { type ReactNode, type ButtonHTMLAttributes } from "react";
 import styles from "./Button.module.scss";
 
 export type ButtonColor = "primary" | "secondary" | "success" | "danger" | "warning" | "info";

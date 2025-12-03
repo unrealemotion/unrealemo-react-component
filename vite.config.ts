@@ -5,13 +5,16 @@ import { resolve } from "path";
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      jsxRuntime: "classic", // Use React.createElement for React 16 compatibility
+    }),
     Icons({
       compiler: "jsx",
       jsx: "react",
     }),
   ],
   build: {
+    target: "es2015", // Target ES2015 for maximum compatibility (no ??, ?., etc.)
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "UnrealEmoReactComponent",
@@ -19,7 +22,7 @@ export default defineConfig({
       fileName: "index",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: ["react", "react-dom"],
       output: {
         preserveModules: true,
         preserveModulesRoot: "src",

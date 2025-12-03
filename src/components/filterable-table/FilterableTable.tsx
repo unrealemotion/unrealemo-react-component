@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { AdvancedFilter } from "./AdvancedFilter";
 import { DataTable } from "./DataTable";
@@ -22,6 +22,8 @@ export function FilterableTable<T extends Record<string, unknown>>({
   allowResize = true,
   showColumnSelector = true,
   exportFileName = "export",
+  truncateContent = true,
+  maxLines = 2,
 }: FilterableTableProps<T>) {
   // Filter state
   const [filterEvaluator, setFilterEvaluator] = useState<(row: T) => boolean>(() => () => true);
@@ -208,6 +210,8 @@ export function FilterableTable<T extends Record<string, unknown>>({
               onColumnResize={handleColumnResize}
               rowClass={rowClass}
               allowResize={allowResize}
+              truncateContent={truncateContent}
+              maxLines={maxLines}
             />
           </Card>
         </>

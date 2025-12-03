@@ -1,4 +1,4 @@
-import { useMemo, useRef, useCallback, useEffect, useState } from "react";
+import React, { useMemo, useRef, useCallback, useEffect, useState } from "react";
 import SortAscIcon from "~icons/mdi/sort-ascending";
 import SortDescIcon from "~icons/mdi/sort-descending";
 import SortIcon from "~icons/mdi/sort";
@@ -25,6 +25,8 @@ export function DataTable<T extends Record<string, unknown>>({
   onColumnResize,
   rowClass,
   allowResize = true,
+  truncateContent = true,
+  maxLines = 2,
 }: DataTableProps<T>) {
   const resizeDataRef = useRef<ResizeData | null>(null);
   const [resizingColumn, setResizingColumn] = useState<string | null>(null);
@@ -83,6 +85,19 @@ export function DataTable<T extends Record<string, unknown>>({
   const getCellStyle = (col: ColumnDefinition<T>): React.CSSProperties => ({
     textAlign: col.align,
   });
+
+  const getCellContentStyle = (): React.CSSProperties => {
+    if (truncateContent) {
+      return {
+        display: "-webkit-box",
+        WebkitLineClamp: maxLines,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      };
+    }
+    return {};
+  };
 
   const handleResizeMove = useCallback((e: MouseEvent) => {
     const resizeData = resizeDataRef.current;
@@ -212,7 +227,9 @@ export function DataTable<T extends Record<string, unknown>>({
               <tr key={index} className={rowClass?.(row) || ""}>
                 {visibleCols.map((col) => (
                   <td key={col.key as string} className={col.className || ""} style={getCellStyle(col)}>
-                    {getCellValue(row, col, index)}
+                    <div style={getCellContentStyle()}>
+                      {getCellValue(row, col, index)}
+                    </div>
                   </td>
                 ))}
               </tr>
