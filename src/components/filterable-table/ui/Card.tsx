@@ -1,0 +1,17 @@
+import type { ReactNode, HTMLAttributes } from "react";
+import styles from "./Card.module.scss";
+
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+}
+
+export function Card({ className, children, ...rest }: CardProps) {
+  const classes = [styles.card, className].filter(Boolean).join(" ");
+
+  return (
+    <div className={classes} {...rest}>
+      {children}
+    </div>
+  );
+}
+

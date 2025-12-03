@@ -1,0 +1,207 @@
+.filter-card {
+	border: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	border-radius: 0.75rem;
+	overflow: visible;
+	padding: 1rem;
+	background: white;
+	margin-bottom: 1rem;
+}
+
+.filter-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid #f1f3f5;
+
+	h6 {
+		margin: 0;
+		font-weight: 700;
+		color: #343a40;
+		font-size: 1.1rem;
+	}
+}
+
+.filter-controls {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.auto-apply-label {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	cursor: pointer;
+	font-size: 0.9rem;
+	color: #495057;
+
+	input[type="checkbox"] {
+		width: 1rem;
+		height: 1rem;
+		cursor: pointer;
+	}
+}
+
+.filter-tree-container {
+	padding: 1rem;
+	background-color: #f8f9fa;
+	border-radius: 0.5rem;
+	border: 1px solid #e9ecef;
+}
+
+// Recursive Filter Styles
+.filter-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-left: 1.5rem;
+	border-left: 2px solid #dee2e6;
+	position: relative;
+	transition: all 0.2s ease;
+
+	&.root-group {
+		padding-left: 0;
+		border-left: none;
+	}
+}
+
+.group-header {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.operator-toggle {
+	font-weight: 600;
+	min-width: 60px;
+	text-transform: uppercase;
+	font-size: 0.75rem;
+	letter-spacing: 0.5px;
+}
+
+.filter-item {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	background: white;
+	padding: 0.75rem;
+	border-radius: 0.5rem;
+	border: 1px solid #e9ecef;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+	transition: box-shadow 0.2s ease;
+
+	&:hover {
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+	}
+}
+
+.column-select {
+	width: 160px;
+	flex-shrink: 0;
+	padding: 0.5rem 0.75rem;
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #212529;
+	background-color: #fff;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: right 0.75rem center;
+	background-size: 16px 12px;
+	border: 1px solid #dee2e6;
+	border-radius: 0.5rem;
+	appearance: none;
+	cursor: pointer;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+	&:focus {
+		border-color: #86b7fe;
+		outline: 0;
+		box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+	}
+
+	&:hover {
+		border-color: #adb5bd;
+	}
+}
+
+.regex-input {
+	flex: 1;
+	min-width: 150px;
+	font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+	font-size: 0.875rem;
+	padding: 0.5rem 0.75rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #212529;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+	border-radius: 0.5rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+	&::placeholder {
+		color: #adb5bd;
+		opacity: 1;
+	}
+
+	&:focus {
+		border-color: #86b7fe;
+		outline: 0;
+		box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+	}
+
+	&:hover {
+		border-color: #adb5bd;
+	}
+}
+
+.case-sensitive-label {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	cursor: pointer;
+	font-size: 0.8rem;
+	color: #6c757d;
+	padding: 0.25rem 0.5rem;
+	border: 1px solid #dee2e6;
+	border-radius: 0.25rem;
+	background: #f8f9fa;
+	white-space: nowrap;
+	transition: all 0.15s ease;
+
+	&:hover {
+		background: #e9ecef;
+	}
+
+	&:has(input:checked) {
+		background: #e7f1ff;
+		border-color: #0d6efd;
+		color: #0d6efd;
+	}
+
+	input[type="checkbox"] {
+		width: 0.9rem;
+		height: 0.9rem;
+		cursor: pointer;
+	}
+
+	span {
+		font-weight: 600;
+		font-family: monospace;
+	}
+}
+
+.action-btn {
+	padding: 0.25rem 0.5rem;
+	opacity: 0.6;
+	transition: opacity 0.2s;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
